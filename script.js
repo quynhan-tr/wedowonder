@@ -1,4 +1,22 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize Lenis for smooth scrolling
+    const lenis = new Lenis({
+        duration: 1.5,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: 'vertical',
+        gestureOrientation: 'vertical',
+        smoothWheel: true,
+        wheelMultiplier: 1,
+        smoothTouch: false,
+        touchMultiplier: 2,
+    });
+
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
     // Simple Intersection Observer for scroll animations
     const observerOptions = {
         threshold: 0.1,
@@ -56,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             centerImg.style.height = '100%';
             centerImg.style.objectFit = 'cover';
             centerImg.style.objectFit = 'cover';
-            // centerImg.style.transition = 'filter 0.5s ease'; // Remove transition to sync with scroll
+            centerImg.style.transition = 'none'; // Remove transition to sync with scroll
         }
 
         const textOverlay = centerItem.querySelector('.hero-overlay-text');
