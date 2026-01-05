@@ -106,7 +106,7 @@ body {
 
 /* Gallery Section */
 .gallery-section {
-    padding: 0 0 4rem 0;
+    padding: 0 0 150vh 0;
     /* Remove horizontal padding so grid can go to edges/cutoff */
     /* Removed overflow-x: hidden to prevent separate vertical scrolling */
     display: flex;
