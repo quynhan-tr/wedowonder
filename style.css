@@ -30,8 +30,9 @@ body {
     justify-content: space-between;
     align-items: center;
     padding: 2rem var(--spacing-container);
-    position: sticky;
+    position: absolute;
     top: 0;
+    width: 100%;
     z-index: 100;
     background-color: transparent;
 }
@@ -70,13 +71,13 @@ body {
 
 /* Hero Section */
 .hero-section {
-    min-height: 50vh;
+    min-height: 45vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 4rem var(--spacing-container);
+    padding: 11.5rem var(--spacing-container) 5rem;
     max-width: 1000px;
     margin: 0 auto;
 }
@@ -106,7 +107,7 @@ body {
 
 /* Gallery Section */
 .gallery-section {
-    padding: 0 0 150vh 0;
+    padding: 0 0 calc(115vh - 175px) 0;
     /* Remove horizontal padding so grid can go to edges/cutoff */
     /* Removed overflow-x: hidden to prevent separate vertical scrolling */
     display: flex;
@@ -162,6 +163,10 @@ body {
         align-content: center;
     }
 
+    .gallery-section {
+        padding-bottom: calc(115vh - 300px);
+    }
+
     /* 1. Left Tall Item */
     .item-tall-left {
         grid-column: 1;
@@ -196,6 +201,11 @@ body {
         border-radius: 20px;
         transform: translateY(3rem);
         /* Move center image down a little */
+        background-color: #000;
+        /* Hide white jiggle */
+        backface-visibility: hidden;
+        -webkit-backface-visibility: hidden;
+        will-change: transform, width, height;
     }
 
     /* 4. Right Stack */
@@ -278,4 +288,335 @@ body {
     font-family: inherit;
     font-weight: 300;
     font-style: italic;
+}
+
+/* Polaroid Section */
+.polaroid-section {
+    background-color: #121212;
+    padding: 6rem var(--spacing-container) 6rem;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow: hidden;
+}
+
+.polaroid-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: auto auto auto;
+    gap: 4rem;
+    max-width: 1400px;
+    width: 100%;
+    position: relative;
+    padding: 0 2rem 2rem 2rem;
+}
+
+/* Text Content - Centered */
+.polaroid-text-content {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 10;
+    /* Animation Initial State */
+    opacity: 0;
+    translate: 0 50px;
+    transition: opacity 1s ease, translate 1s cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.polaroid-text-content h2 {
+    font-family: var(--font-serif);
+    color: #fff;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 400;
+    line-height: 1.2;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    margin-bottom: 1rem;
+}
+
+.polaroid-subtitle {
+    font-family: var(--font-sans);
+    font-size: 1.1rem;
+    color: #cccccc;
+    max-width: 680px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Polaroid Items */
+.polaroid-item {
+    position: relative;
+    z-index: 1;
+    /* Entrance Animation Initial State */
+    opacity: 0;
+    translate: 0 100px;
+    transition: opacity 1s ease, translate 1s cubic-bezier(0.33, 1, 0.68, 1), transform 0.4s ease;
+}
+
+.polaroid-item.visible {
+    opacity: 1;
+    translate: 0 0;
+}
+
+/* Staggered delays for entrance */
+.item-1 {
+    transition-delay: 0s, 0s, 0s;
+}
+
+.item-2 {
+    transition-delay: 0.1s, 0.1s, 0s;
+}
+
+.item-3 {
+    transition-delay: 0.2s, 0.2s, 0s;
+}
+
+.polaroid-text-content.visible {
+    opacity: 1;
+    translate: 0 0;
+}
+
+.item-4 {
+    transition-delay: 0.3s, 0.3s, 0s;
+}
+
+.item-5 {
+    transition-delay: 0.4s, 0.4s, 0s;
+}
+
+.item-6 {
+    transition-delay: 0.5s, 0.5s, 0s;
+}
+
+.polaroid-item:hover {
+    z-index: 5;
+    transform: scale(1.05) rotate(0deg) !important;
+}
+
+.polaroid-item:hover .polaroid-inner img {
+    filter: grayscale(0%) contrast(100%);
+}
+
+.polaroid-inner {
+    /* Removed polaroid background and padding */
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100%;
+    transform: translateZ(0);
+
+    /* Continuous Float Animation */
+    animation: floating 6s ease-in-out infinite;
+}
+
+/* Float Keyframes */
+@keyframes floating {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+/* Staggered Float Animations */
+.item-1 .polaroid-inner {
+    animation-delay: 0s;
+}
+
+.item-2 .polaroid-inner {
+    animation-delay: -1s;
+}
+
+.item-3 .polaroid-inner {
+    animation-delay: -2s;
+}
+
+.item-4 .polaroid-inner {
+    animation-delay: -3s;
+}
+
+.item-5 .polaroid-inner {
+    animation-delay: -4s;
+}
+
+.item-6 .polaroid-inner {
+    animation-delay: -5s;
+}
+
+.polaroid-inner img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    filter: sepia(10%) contrast(90%) grayscale(100%);
+    transition: filter 0.4s ease;
+    display: block;
+}
+
+/* Specific Rotations & Positions (Scatter Effect) */
+
+/* Item 1: Top Left */
+.item-1 {
+    grid-column: 1;
+    grid-row: 1;
+    transform: rotate(-6deg);
+}
+
+/* Item 2: Top Center */
+.item-2 {
+    grid-column: 2;
+    grid-row: 1;
+    transform: rotate(3deg) translateY(20px);
+}
+
+/* Item 3: Top Right */
+.item-3 {
+    grid-column: 3;
+    grid-row: 1;
+    transform: rotate(5deg);
+}
+
+/* Item 4: Bottom Left */
+.item-4 {
+    grid-column: 1;
+    grid-row: 3;
+    /* changed to row 3 because row 2 is text */
+    transform: rotate(4deg);
+}
+
+/* Item 5: Bottom Center */
+.item-5 {
+    grid-column: 2;
+    grid-row: 3;
+    transform: rotate(-2deg) translateY(-20px);
+}
+
+/* Item 6: Bottom Right */
+.item-6 {
+    grid-column: 3;
+    grid-row: 3;
+    transform: rotate(-5deg);
+}
+
+/* Adjust Row 2 items to not overlap text too much if grid is tight */
+/* Actually, grid placement handles strict non-overlap, but we want 'scattered' feel. */
+/* The grid gap should separate them enough. */
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .polaroid-grid {
+        grid-template-columns: repeat(2, 1fr);
+        /* 
+           Layout for tablet:
+           Row1: Img, Img
+           Row2: Text (span 2)
+           Row3: Img, Img
+           Row4: Img, Img
+        */
+        gap: 2rem;
+    }
+
+    .polaroid-text-content {
+        grid-column: 1 / span 2;
+        grid-row: 2;
+        padding: 3rem 0;
+    }
+
+    /* Reset grid positions for 2-col layout */
+    .item-1 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .item-2 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .item-3 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    /* Now in row 3 */
+    .item-4 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .item-5 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .item-6 {
+        grid-column: auto;
+        grid-row: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .polaroid-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+    }
+
+    .polaroid-text-content {
+        order: 2;
+        /* Put text somewhere in the middle or top */
+    }
+
+    .item-1,
+    .item-2,
+    .item-3 {
+        order: 1;
+    }
+
+    .item-4,
+    .item-5,
+    .item-6 {
+        order: 3;
+    }
+
+    .polaroid-item {
+        width: 80%;
+        margin: 0 auto;
+        /* Center items */
+        transform: rotate(var(--r, 0deg));
+        /* We can use random variable or fixed */
+    }
+
+    /* Manual random rotations for mobile stack */
+    .item-1 {
+        transform: rotate(-3deg);
+    }
+
+    .item-2 {
+        transform: rotate(2deg);
+    }
+
+    .item-3 {
+        transform: rotate(-2deg);
+    }
+
+    .item-4 {
+        transform: rotate(3deg);
+    }
+
+    .item-5 {
+        transform: rotate(-1deg);
+    }
+
+    .item-6 {
+        transform: rotate(2deg);
+    }
 }

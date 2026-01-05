@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     // Select all elements to animate
-    const animatedElements = document.querySelectorAll('.gallery-item');
+    const animatedElements = document.querySelectorAll('.gallery-item, .polaroid-item, .polaroid-text-content');
     animatedElements.forEach(el => {
         observer.observe(el);
     });
@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const expansionDistance = viewportHeight * 0.6; // finish after 60vh scroll
 
                 let progress = distScrolledPast / expansionDistance;
-                if (progress > 1) progress = 1;
-                if (progress < 0) progress = 0;
+                // We don't clamp progress > 1 immediately, we need it for extra scroll
+                let clampedProgress = Math.min(1, Math.max(0, progress));
 
-                // Interpolate Dimensions
+                // Interpolate Dimensions using clampedProgress
                 // Start: Placeholder Dim
                 const startW = pRect.width;
                 const startH = pRect.height;
@@ -137,13 +137,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const endW = viewportWidth;
                 const endH = viewportHeight;
 
-                const currentW = startW + (endW - startW) * progress;
-                const currentH = startH + (endH - startH) * progress;
+                const currentW = startW + (endW - startW) * clampedProgress;
+                const currentH = startH + (endH - startH) * clampedProgress;
 
                 // Position: Center in viewport
                 // The item changes size, so we calculate top/left to keep it centered
-                const destX = (viewportWidth - currentW) / 2;
-                const destY = (viewportHeight - currentH) / 2;
+                let destX = (viewportWidth - currentW) / 2;
+                let destY = (viewportHeight - currentH) / 2;
+
+                // If animation is done (progress > 1), move it up
+                if (progress > 1) {
+                    const extraScroll = distScrolledPast - expansionDistance;
+                    destY -= extraScroll;
+                }
 
                 centerItem.style.width = `${currentW}px`;
                 centerItem.style.height = `${currentH}px`;
@@ -201,9 +207,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
 
-        window.addEventListener('scroll', updateScroll);
         window.addEventListener('resize', updateScroll);
         // Initial call
         updateScroll();
+
+        // Sync with Lenis loop
+        lenis.on('scroll', updateScroll);
     }
 });
