@@ -51,8 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
             centerImg.style.width = '100%';
             centerImg.style.height = '100%';
             centerImg.style.objectFit = 'cover';
-            centerImg.style.transition = 'filter 0.5s ease';
+            centerImg.style.objectFit = 'cover';
+            // centerImg.style.transition = 'filter 0.5s ease'; // Remove transition to sync with scroll
         }
+
+        const textOverlay = centerItem.querySelector('.hero-overlay-text');
 
         function updateScroll() {
             // Get placeholder metrics (this is where the item "should" be in the flow)
@@ -82,6 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (centerImg) {
                     centerImg.style.filter = ''; // Default CSS filter
+                }
+
+                if (textOverlay) {
+                    textOverlay.style.opacity = '0';
+                    textOverlay.style.transform = 'translate(-50%, calc(-50% + 20vh)) rotate(5deg)'; // Start tilted and lower
                 }
             } else {
                 // STATE: Expansion Animation
@@ -125,10 +133,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 centerItem.style.borderRadius = `${radius}px`;
 
                 // Filters
-                // Keep the filter that the image has on the hero page (do not remove it)
-                // We simply rely on CSS for the filter.
+                // Darken image as we scroll to make text readable
                 if (centerImg) {
-                    centerImg.style.filter = ''; // Ensure we default to CSS
+                    // Base filter: sepia(10%) contrast(90%) grayscale(20%)
+                    // Add brightness reduction. Start 1.0 -> End 0.8
+                    const brightness = 1 - (0.2 * progress);
+                    centerImg.style.filter = `sepia(10%) contrast(90%) grayscale(20%) brightness(${brightness})`;
+                }
+
+                if (textOverlay) {
+                    // Text Animation
+                    // Fade in and slide up
+                    // Start showing later (60%) and take shorter to complete (matches velocity roughly)
+                    // Range: 0.6 -> 1.0 (duration 0.4)
+                    let textProgress = (progress - 0.6) / 0.4;
+                    if (textProgress < 0) textProgress = 0;
+                    if (textProgress > 1) textProgress = 1;
+
+                    textOverlay.style.opacity = textProgress;
+
+                    // Move from lower position (20vh down) to center (0vh offset)
+                    // Start: offset 20vh, End: offset 0vh
+                    const yOffsetVh = 20 * (1 - textProgress);
+
+                    // Tilt effect: Start rotated 5deg -> End 0deg (straight)
+                    const currentRotation = 5 * (1 - textProgress);
+
+                    textOverlay.style.transform = `translate(-50%, calc(-50% + ${yOffsetVh}vh)) rotate(${currentRotation}deg)`;
                 }
             }
         }
