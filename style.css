@@ -1,9 +1,7 @@
 :root {
     --bg-color: #EAEAE6;
-    /* Soft paper-like off-white */
     --text-color: #1A1A1A;
     --text-secondary: #555555;
-    --accent-color: #333333;
 
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Inter', sans-serif;
@@ -36,7 +34,6 @@ body {
     top: 0;
     z-index: 100;
     background-color: transparent;
-    /* Keep transparent or use var(--bg-color) if sticky needs bg */
 }
 
 .logo-text {
@@ -50,7 +47,6 @@ body {
 .site-nav {
     display: flex;
     gap: 1.5rem;
-    /* Reduced gap slightly for icon only */
     align-items: center;
 }
 
@@ -75,7 +71,6 @@ body {
 /* Hero Section */
 .hero-section {
     min-height: 50vh;
-    /* Reduced height as requested implicitly by "smaller title"? or just to fit text better */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -83,14 +78,12 @@ body {
     text-align: center;
     padding: 4rem var(--spacing-container);
     max-width: 1000px;
-    /* Constrain width for readability of long text */
     margin: 0 auto;
 }
 
 .main-title {
     font-family: var(--font-serif);
     font-size: clamp(1.8rem, 4vw, 3rem);
-    /* Reduced from 2-5-4 */
     font-weight: 400;
     line-height: 1.25;
     margin-bottom: 2rem;
@@ -102,7 +95,6 @@ body {
     font-size: 1rem;
     color: var(--text-secondary);
     max-width: 700px;
-    /* Allowed a bit more width for the longer paragraph */
     margin: 0 auto;
     text-align: center;
 }
@@ -114,58 +106,29 @@ body {
 
 /* Gallery Section */
 .gallery-section {
-    padding: 0 var(--spacing-container) 6rem;
+    padding: 0 0 4rem 0;
+    /* Remove horizontal padding so grid can go to edges/cutoff */
+    /* Removed overflow-x: hidden to prevent separate vertical scrolling */
+    display: flex;
+    justify-content: center;
 }
 
 .gallery-grid {
     display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 2rem;
-    max-width: 1400px;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
     margin: 0 auto;
-}
-
-/* Responsive Grid adjustments to look "scattered" */
-@media (min-width: 768px) {
-    .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 4rem;
-    }
-
-    /* Shift every even item down to create offset/masonry feel */
-    .gallery-item:nth-child(even) {
-        transform: translateY(3rem);
-    }
-}
-
-@media (min-width: 1200px) {
-    .gallery-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .gallery-item:nth-child(3n+2) {
-        transform: translateY(4rem);
-    }
-
-    .gallery-item:nth-child(3n) {
-        transform: translateY(2rem);
-        /* Slight offset for 3rd col */
-    }
+    align-items: center;
 }
 
 .gallery-item {
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    /* aspect-ratio: 4/3;  Optional constraint */
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-    transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.gallery-item:hover {
-    transform: translateY(-5px) scale(1.01) !important;
-    /* Override the masonry transform slightly on hover */
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    position: relative;
+    height: 350px;
+    width: 100%;
+    /* No hover transform or shadow as requested */
 }
 
 .gallery-item img {
@@ -173,13 +136,91 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: sepia(10%) contrast(90%);
-    /* Light vintage feel */
+    filter: sepia(10%) contrast(90%) grayscale(20%);
     transition: filter 0.3s ease;
 }
 
-.gallery-item:hover img {
-    filter: sepia(0%) contrast(100%);
+/* Optional: keep brightness hover but remove movement */
+/* .gallery-item:hover img {
+    filter: sepia(0%) contrast(100%) grayscale(0%);
+} */
+
+/* Desktop Grid Implementation */
+@media (min-width: 1024px) {
+    .gallery-grid {
+        /* Make grid significantly wider than viewport to cut off edges */
+        width: 170vw;
+        /* Flexbox justify-content: center on parent handles alignment */
+
+        /* Columns: Short items on edges, Stacks, Large Center */
+        /* Use fixed relative sizes to ensure proportion */
+        grid-template-columns: 1fr 1.3fr 2.2fr 1.3fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 2.5rem;
+        /* Increased spacing */
+        justify-content: center;
+        align-content: center;
+    }
+
+    /* 1. Left Tall Item */
+    .item-tall-left {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        height: 360px;
+        /* Shorter than before */
+        align-self: center;
+    }
+
+    /* 2. Left Stack */
+    .item-stack-left-top {
+        grid-column: 2;
+        grid-row: 1;
+        height: 260px;
+        align-self: end;
+        /* Gap between stack items */
+    }
+
+    .item-stack-left-bottom {
+        grid-column: 2;
+        grid-row: 2;
+        height: 260px;
+        align-self: start;
+    }
+
+    /* 3. Center Large */
+    .item-center-large {
+        grid-column: 3;
+        grid-row: 1 / span 2;
+        height: 600px;
+        /* Big center item */
+        border-radius: 20px;
+        transform: translateY(3rem);
+        /* Move center image down a little */
+    }
+
+    /* 4. Right Stack */
+    .item-stack-right-top {
+        grid-column: 4;
+        grid-row: 1;
+        height: 260px;
+        align-self: end;
+    }
+
+    .item-stack-right-bottom {
+        grid-column: 4;
+        grid-row: 2;
+        height: 260px;
+        align-self: start;
+    }
+
+    /* 5. Right Tall Item (Now shorter) */
+    .item-tall-right {
+        grid-column: 5;
+        grid-row: 1 / span 2;
+        height: 360px;
+        /* Shorter */
+        align-self: center;
+    }
 }
 
 /* Animations */
