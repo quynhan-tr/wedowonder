@@ -38,6 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // Insert placeholder before centerItem
         centerItem.parentNode.insertBefore(placeholder, centerItem);
 
+        // Select adjacent items to push away
+        const leftItems = document.querySelectorAll('.item-tall-left, .item-stack-left-top, .item-stack-left-bottom');
+        const rightItems = document.querySelectorAll('.item-stack-right-top, .item-stack-right-bottom, .item-tall-right');
+
         // Set initial fixed properties for the animating item
         centerItem.style.position = 'fixed';
         centerItem.style.top = '0';
@@ -86,6 +90,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (centerImg) {
                     centerImg.style.filter = ''; // Default CSS filter
                 }
+
+                // Reset adjacent items
+                leftItems.forEach(item => item.style.transform = '');
+                rightItems.forEach(item => item.style.transform = '');
 
                 if (textOverlay) {
                     textOverlay.style.opacity = '0';
@@ -140,6 +148,17 @@ document.addEventListener('DOMContentLoaded', () => {
                     const brightness = 1 - (0.2 * progress);
                     centerImg.style.filter = `sepia(10%) contrast(90%) grayscale(20%) brightness(${brightness})`;
                 }
+
+                // Push adjacent items
+                // To keep constant distance, push by the amount the center image has expanded (half of width increase)
+                const pushDistance = (viewportWidth - startW) * 0.5 * progress;
+
+                leftItems.forEach(item => {
+                    item.style.transform = `translate(-${pushDistance}px, ${distScrolledPast}px)`;
+                });
+                rightItems.forEach(item => {
+                    item.style.transform = `translate(${pushDistance}px, ${distScrolledPast}px)`;
+                });
 
                 if (textOverlay) {
                     // Text Animation
