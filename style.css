@@ -620,3 +620,204 @@ body {
         transform: rotate(2deg);
     }
 }
+
+/* Wonderland Section */
+.wonderland-section {
+    background-color: #121212;
+    color: #fff;
+    /* Height defines the duration of the scroll interaction */
+    height: 350vh;
+    position: relative;
+    z-index: 10;
+}
+
+/* The viewport wrapper that pins the content */
+.wonderland-sticky-wrapper {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    /* Hide the scrolling parts that go out of bounds */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 var(--spacing-container);
+}
+
+.wonderland-container {
+    max-width: 1400px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    height: 100%;
+    /* Full height of sticky wrapper */
+}
+
+/* Left Content */
+.wonderland-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    padding-right: 2rem;
+    /* Content is static inside the sticky view */
+}
+
+.wonderland-title {
+    font-family: var(--font-serif);
+    font-size: clamp(3rem, 6vw, 5rem);
+    font-weight: 400;
+    line-height: 1;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.wonderland-description {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #cccccc;
+    max-width: 500px;
+}
+
+.wonderland-description strong {
+    color: #fff;
+    font-weight: 600;
+}
+
+.wonderland-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.wonderland-link {
+    font-family: var(--font-sans);
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: opacity 0.3s ease;
+}
+
+.wonderland-link:hover {
+    opacity: 0.7;
+}
+
+.wonderland-link i {
+    width: 16px;
+    height: 16px;
+}
+
+.wonderland-footer {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: #555;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.wonderland-logo-text {
+    font-family: var(--font-sans);
+    color: #777;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+/* Right Gallery Scrolling Area */
+.wonderland-gallery-scroll-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    height: 120vh;
+    /* Make it taller than viewport so we see movement */
+    /* Wait, height isn't the limiting factor, overflow hidden on wrapper is.
+       The columns themselves are tall. We just position this container. */
+    align-items: center;
+    /* Vertically center the columns initially */
+    position: relative;
+    /* Rotate slightly for style if desired? Ref is straight. */
+}
+
+.w-col-left,
+.w-col-right {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    will-change: transform;
+}
+
+.w-item {
+    border-radius: 12px;
+    overflow: hidden;
+    filter: sepia(20%) grayscale(20%);
+    transition: filter 0.3s ease;
+    height: 350px;
+    /* Fixed height for consistency */
+    flex-shrink: 0;
+}
+
+.w-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .wonderland-section {
+        height: auto;
+        /* No scroll scrub on mobile usually, or simpler */
+        padding: 4rem 1rem;
+    }
+
+    .wonderland-sticky-wrapper {
+        position: relative;
+        height: auto;
+        display: block;
+        overflow: visible;
+        padding: 0;
+    }
+
+    .wonderland-container {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        height: auto;
+    }
+
+    .wonderland-content {
+        padding-right: 0;
+        align-items: center;
+        text-align: center;
+    }
+
+    .wonderland-description {
+        margin: 0 auto;
+    }
+
+    .wonderland-footer {
+        justify-content: center;
+    }
+
+    .wonderland-gallery-scroll-container {
+        grid-template-columns: 1fr 1fr;
+        height: auto;
+        /* On mobile, maybe just show them statically or let them scroll naturally? */
+        /* Let's just stack them normally for now */
+    }
+
+    .w-col-left,
+    .w-col-right {
+        transform: none !important;
+        /* Disable JS transform on mobile via important or JS check */
+    }
+}

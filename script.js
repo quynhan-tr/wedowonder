@@ -233,4 +233,74 @@ document.addEventListener('DOMContentLoaded', () => {
         // Sync with Lenis loop
         lenis.on('scroll', updateScroll);
     }
+    // ---------------------------------------------------------
+    // Wonderland Scroll Animation
+    // ---------------------------------------------------------
+    const wonderlandSection = document.querySelector('.wonderland-section');
+    const colLeft = document.querySelector('.w-col-left');
+    const colRight = document.querySelector('.w-col-right');
+
+    const updateWonderlandScroll = () => {
+        if (!wonderlandSection || !colLeft || !colRight) return;
+
+        // On mobile, disabled by CSS, but good to check width here too
+        if (window.innerWidth <= 1024) return;
+
+        const rect = wonderlandSection.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const sectionHeight = rect.height;
+
+        // Determine if we are within the scrollable area
+        // rect.top is the distance from the top of the viewport to the top of the section.
+        // It starts positive, goes to 0, then goes negative.
+        // When rect.top is 0, we are at start of section.
+        // The Sticky Wrapper pins the content.
+        // The scroll ends when the bottom of the section hits the bottom of the viewport (or moves offscreen).
+
+        const distanceToScroll = sectionHeight - viewportHeight;
+
+        // Make sure we clamp progress between 0 and 1
+        // Start: rect.top <= 0
+        // End: rect.top >= -distanceToScroll
+
+        let progress = -rect.top / distanceToScroll;
+        progress = Math.min(1, Math.max(0, progress));
+
+        // Logic:
+        // Left Column: Scrolls DOWN (Moves +Y). Starts high (negative Y), ends at 0 or positive Y.
+        // Right Column: Scrolls UP (Moves -Y). Starts low (positive Y), ends at negative Y.
+
+        // Define movement range based on column height or arbitrary visual values.
+        // A full column of 4 images is roughly 1500px.
+        // Viewport is ~900px.
+
+        // Left Col (Scroll Down):
+        // Start: -400px (Content shifted up)
+        // End: +200px (Content shifted down, revealing top items)
+        // Wait, "Scroll Down" means content moves UP to show lower items? 
+        // Or "Scroll Down" as in "Visually moves downwards"?
+        // Typically sticky scroll parallax:
+        // One column moves faster than scroll (Down relative to viewport? No, Up faster)
+        // One column moves reverse to scroll (Down relative to viewport).
+
+        // Let's implement:
+        // Left Col: Moves DOWN (+Y). Starts at -600px. Ends at 0px.
+        // Right Col: Moves UP (-Y). Starts at 0px. Ends at -600px.
+
+        const moveRange = 800;
+
+        // Adjusted for additional filler images (~750px added to top/bottom)
+        // Ensure values remain negative to avoid gaps at the top
+        const leftY = -1000 + (progress * moveRange); // Starts -1000, ends -200
+        const rightY = -200 - (progress * moveRange); // Starts -200, ends -1000
+
+        colLeft.style.transform = `translateY(${leftY}px)`;
+        colRight.style.transform = `translateY(${rightY}px)`;
+    };
+
+    // Attach to listeners
+    window.addEventListener('resize', updateWonderlandScroll);
+    updateWonderlandScroll(); // Initial
+    lenis.on('scroll', updateWonderlandScroll);
+
 });
