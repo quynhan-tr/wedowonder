@@ -293,7 +293,7 @@ body {
 /* Polaroid Section */
 .polaroid-section {
     background-color: #121212;
-    padding: 6rem var(--spacing-container) 6rem;
+    padding: 10rem var(--spacing-container) 10rem;
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -745,6 +745,27 @@ body {
     /* Vertically center the columns initially */
     position: relative;
     /* Rotate slightly for style if desired? Ref is straight. */
+}
+
+.wonderland-gallery-scroll-container::before,
+.wonderland-gallery-scroll-container::after {
+    content: '';
+    position: absolute;
+    left: -10%;
+    width: 120%;
+    height: 600px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.wonderland-gallery-scroll-container::before {
+    top: 0;
+    background: linear-gradient(to bottom, #121212 0%, transparent 100%);
+}
+
+.wonderland-gallery-scroll-container::after {
+    bottom: 0;
+    background: linear-gradient(to top, #121212 0%, transparent 100%);
 }
 
 .w-col-left,
