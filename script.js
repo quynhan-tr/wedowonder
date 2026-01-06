@@ -34,9 +34,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }, observerOptions);
 
     // Select all elements to animate
-    const animatedElements = document.querySelectorAll('.gallery-item, .polaroid-item, .polaroid-text-content');
-    animatedElements.forEach(el => {
+    // Exclude bottom polaroids from the standard observer so we can trigger them earlier
+    const standardElements = document.querySelectorAll('.gallery-item, .polaroid-item:not(.item-4):not(.item-5):not(.item-6), .polaroid-text-content');
+    standardElements.forEach(el => {
         observer.observe(el);
+    });
+
+    // Dedicated Observer for bottom polaroids to start animation earlier
+    const earlierObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                // earlierObserver.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0, // Trigger immediately
+        rootMargin: "0px 0px 50px 0px" // Trigger when 50px BELOW the viewport (starts earlier)
+    });
+
+    const bottomPolaroids = document.querySelectorAll('.item-4, .item-5, .item-6');
+    bottomPolaroids.forEach(el => {
+        earlierObserver.observe(el);
     });
 
     // ---------------------------------------------------------
