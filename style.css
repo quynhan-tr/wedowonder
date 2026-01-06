@@ -758,6 +758,8 @@ body {
     pointer-events: none;
 }
 
+
+
 .wonderland-gallery-scroll-container::before {
     top: 0;
     background: linear-gradient(to bottom, #121212 0%, transparent 100%);
@@ -765,7 +767,8 @@ body {
 
 .wonderland-gallery-scroll-container::after {
     bottom: 0;
-    background: linear-gradient(to top, #121212 0%, transparent 100%);
+    height: 900px;
+    background: linear-gradient(to top, #121212 20%, transparent 100%);
 }
 
 .w-col-left,
@@ -840,5 +843,64 @@ body {
     .w-col-right {
         transform: none !important;
         /* Disable JS transform on mobile via important or JS check */
+    }
+}
+
+/* Text Carousel Section */
+.text-carousel-section {
+    background-color: #121212;
+    padding: 10rem 0;
+    padding-bottom: 2rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.text-carousel-section:first-of-type {
+    padding-top: 12rem;
+    padding-bottom: 0;
+}
+
+.text-carousel-section:last-of-type {
+    padding-bottom: 6rem;
+    padding-top: 0;
+    margin-top: -1rem;
+    /* Pull them closer */
+}
+
+.marquee-container {
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.marquee-content {
+    display: inline-block;
+    animation: marquee-scroll 40s linear infinite;
+    will-change: transform;
+}
+
+.marquee-content.reverse {
+    animation-direction: reverse;
+}
+
+.marquee-content span {
+    font-family: var(--font-serif);
+    font-size: clamp(2rem, 5vw, 4rem);
+    color: #fff;
+    font-weight: 300;
+    margin-right: 2rem;
+    display: inline-block;
+    line-height: 1;
+    /* Reduce vertical space */
+}
+
+@keyframes marquee-scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
     }
 }
