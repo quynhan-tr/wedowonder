@@ -64,10 +64,7 @@ body {
     opacity: 0.6;
 }
 
-.nav-link i {
-    width: 20px;
-    height: 20px;
-}
+
 
 /* Hero Section */
 .hero-section {
@@ -141,24 +138,13 @@ body {
     transition: filter 0.3s ease;
 }
 
-/* Optional: keep brightness hover but remove movement */
-/* .gallery-item:hover img {
-    filter: sepia(0%) contrast(100%) grayscale(0%);
-} */
-
 /* Desktop Grid Implementation */
 @media (min-width: 1024px) {
     .gallery-grid {
-        /* Make grid significantly wider than viewport to cut off edges */
         width: 170vw;
-        /* Flexbox justify-content: center on parent handles alignment */
-
-        /* Columns: Short items on edges, Stacks, Large Center */
-        /* Use fixed relative sizes to ensure proportion */
         grid-template-columns: 1fr 1.3fr 2.2fr 1.3fr 1fr;
         grid-template-rows: auto auto;
         gap: 2.5rem;
-        /* Increased spacing */
         justify-content: center;
         align-content: center;
     }
@@ -167,22 +153,18 @@ body {
         padding-bottom: calc(115vh - 300px);
     }
 
-    /* 1. Left Tall Item */
     .item-tall-left {
         grid-column: 1;
         grid-row: 1 / span 2;
         height: 360px;
-        /* Shorter than before */
         align-self: center;
     }
 
-    /* 2. Left Stack */
     .item-stack-left-top {
         grid-column: 2;
         grid-row: 1;
         height: 260px;
         align-self: end;
-        /* Gap between stack items */
     }
 
     .item-stack-left-bottom {
@@ -192,23 +174,18 @@ body {
         align-self: start;
     }
 
-    /* 3. Center Large */
     .item-center-large {
         grid-column: 3;
         grid-row: 1 / span 2;
         height: 600px;
-        /* Big center item */
         border-radius: 20px;
         transform: translateY(3rem);
-        /* Move center image down a little */
         background-color: #000;
-        /* Hide white jiggle */
         backface-visibility: hidden;
         -webkit-backface-visibility: hidden;
         will-change: transform, width, height;
     }
 
-    /* 4. Right Stack */
     .item-stack-right-top {
         grid-column: 4;
         grid-row: 1;
@@ -223,34 +200,20 @@ body {
         align-self: start;
     }
 
-    /* 5. Right Tall Item (Now shorter) */
     .item-tall-right {
         grid-column: 5;
         grid-row: 1 / span 2;
         height: 360px;
-        /* Shorter */
         align-self: center;
     }
 }
 
-/* Animations */
 .fade-in-up {
     opacity: 0;
     transform: translateY(20px);
     animation: fadeInUp 0.8s ease forwards;
 }
 
-.delay-1 {
-    animation-delay: 0.1s;
-}
-
-.delay-2 {
-    animation-delay: 0.2s;
-}
-
-.delay-3 {
-    animation-delay: 0.3s;
-}
 
 @keyframes fadeInUp {
     to {
@@ -259,7 +222,6 @@ body {
     }
 }
 
-/* Hero Overlay Text */
 .hero-overlay-text {
     position: absolute;
     top: 50%;
@@ -272,7 +234,6 @@ body {
     width: 90%;
     max-width: 900px;
     z-index: 205;
-    /* Above image (200) */
     opacity: 0;
     pointer-events: none;
     text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
@@ -290,7 +251,6 @@ body {
     font-style: italic;
 }
 
-/* Polaroid Section */
 .polaroid-section {
     background-color: #121212;
     padding: 10rem var(--spacing-container) 10rem;
@@ -312,7 +272,6 @@ body {
     padding: 0 2rem 2rem 2rem;
 }
 
-/* Text Content - Centered */
 .polaroid-text-content {
     grid-column: 1 / -1;
     grid-row: 2;
@@ -322,7 +281,6 @@ body {
     align-items: center;
     text-align: center;
     z-index: 10;
-    /* Animation Initial State */
     opacity: 0;
     translate: 0 50px;
     transition: opacity 1s ease, translate 1s cubic-bezier(0.33, 1, 0.68, 1);
@@ -347,11 +305,9 @@ body {
     line-height: 1.6;
 }
 
-/* Polaroid Items */
 .polaroid-item {
     position: relative;
     z-index: 1;
-    /* Entrance Animation Initial State */
     opacity: 0;
     translate: 0 100px;
     transition: opacity 1s ease, translate 1s cubic-bezier(0.33, 1, 0.68, 1), transform 0.4s ease;
@@ -362,7 +318,6 @@ body {
     translate: 0 0;
 }
 
-/* Staggered delays for entrance */
 .item-1 {
     transition-delay: 0s, 0s, 0s;
 }
@@ -402,19 +357,15 @@ body {
 }
 
 .polaroid-inner {
-    /* Removed polaroid background and padding */
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
     transform: translateZ(0);
-
-    /* Continuous Float Animation */
     animation: floating 6s ease-in-out infinite;
 }
 
-/* Float Keyframes */
 @keyframes floating {
 
     0%,
@@ -427,7 +378,6 @@ body {
     }
 }
 
-/* Staggered Float Animations */
 .item-1 .polaroid-inner {
     animation-delay: 0s;
 }
@@ -461,66 +411,45 @@ body {
     display: block;
 }
 
-/* Specific Rotations & Positions (Scatter Effect) */
-
-/* Item 1: Top Left */
 .item-1 {
     grid-column: 1;
     grid-row: 1;
     transform: rotate(-6deg);
 }
 
-/* Item 2: Top Center */
 .item-2 {
     grid-column: 2;
     grid-row: 1;
     transform: rotate(3deg) translateY(20px);
 }
 
-/* Item 3: Top Right */
 .item-3 {
     grid-column: 3;
     grid-row: 1;
     transform: rotate(5deg);
 }
 
-/* Item 4: Bottom Left */
 .item-4 {
     grid-column: 1;
     grid-row: 3;
-    /* changed to row 3 because row 2 is text */
     transform: rotate(4deg);
 }
 
-/* Item 5: Bottom Center */
 .item-5 {
     grid-column: 2;
     grid-row: 3;
     transform: rotate(-2deg) translateY(-20px);
 }
 
-/* Item 6: Bottom Right */
 .item-6 {
     grid-column: 3;
     grid-row: 3;
     transform: rotate(-5deg);
 }
 
-/* Adjust Row 2 items to not overlap text too much if grid is tight */
-/* Actually, grid placement handles strict non-overlap, but we want 'scattered' feel. */
-/* The grid gap should separate them enough. */
-
-/* Responsive */
 @media (max-width: 1024px) {
     .polaroid-grid {
         grid-template-columns: repeat(2, 1fr);
-        /* 
-           Layout for tablet:
-           Row1: Img, Img
-           Row2: Text (span 2)
-           Row3: Img, Img
-           Row4: Img, Img
-        */
         gap: 2rem;
     }
 
@@ -530,7 +459,6 @@ body {
         padding: 3rem 0;
     }
 
-    /* Reset grid positions for 2-col layout */
     .item-1 {
         grid-column: auto;
         grid-row: auto;
@@ -546,7 +474,6 @@ body {
         grid-row: auto;
     }
 
-    /* Now in row 3 */
     .item-4 {
         grid-column: auto;
         grid-row: auto;
@@ -572,7 +499,6 @@ body {
 
     .polaroid-text-content {
         order: 2;
-        /* Put text somewhere in the middle or top */
     }
 
     .item-1,
@@ -590,12 +516,9 @@ body {
     .polaroid-item {
         width: 80%;
         margin: 0 auto;
-        /* Center items */
         transform: rotate(var(--r, 0deg));
-        /* We can use random variable or fixed */
     }
 
-    /* Manual random rotations for mobile stack */
     .item-1 {
         transform: rotate(-3deg);
     }
@@ -621,23 +544,19 @@ body {
     }
 }
 
-/* Wonderland Section */
 .wonderland-section {
     background-color: #121212;
     color: #fff;
-    /* Height defines the duration of the scroll interaction */
     height: 350vh;
     position: relative;
     z-index: 10;
 }
 
-/* The viewport wrapper that pins the content */
 .wonderland-sticky-wrapper {
     position: sticky;
     top: 0;
     height: 100vh;
     overflow: hidden;
-    /* Hide the scrolling parts that go out of bounds */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -652,16 +571,13 @@ body {
     gap: 4rem;
     align-items: center;
     height: 100%;
-    /* Full height of sticky wrapper */
 }
 
-/* Left Content */
 .wonderland-content {
     display: flex;
     flex-direction: column;
     gap: 3rem;
     padding-right: 2rem;
-    /* Content is static inside the sticky view */
 }
 
 .wonderland-title {
@@ -686,34 +602,6 @@ body {
     font-weight: 600;
 }
 
-.wonderland-links {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.wonderland-link {
-    font-family: var(--font-sans);
-    color: #fff;
-    text-decoration: none;
-    text-transform: uppercase;
-    font-size: 0.9rem;
-    letter-spacing: 0.05em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    transition: opacity 0.3s ease;
-}
-
-.wonderland-link:hover {
-    opacity: 0.7;
-}
-
-.wonderland-link i {
-    width: 16px;
-    height: 16px;
-}
-
 .wonderland-footer {
     display: flex;
     align-items: center;
@@ -732,19 +620,13 @@ body {
     line-height: 1.1;
 }
 
-/* Right Gallery Scrolling Area */
 .wonderland-gallery-scroll-container {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 1.5rem;
     height: 120vh;
-    /* Make it taller than viewport so we see movement */
-    /* Wait, height isn't the limiting factor, overflow hidden on wrapper is.
-       The columns themselves are tall. We just position this container. */
     align-items: center;
-    /* Vertically center the columns initially */
     position: relative;
-    /* Rotate slightly for style if desired? Ref is straight. */
 }
 
 .wonderland-gallery-scroll-container::before,
@@ -757,8 +639,6 @@ body {
     z-index: 2;
     pointer-events: none;
 }
-
-
 
 .wonderland-gallery-scroll-container::before {
     top: 0;
@@ -785,7 +665,6 @@ body {
     filter: sepia(20%) grayscale(20%);
     transition: filter 0.3s ease;
     height: 350px;
-    /* Fixed height for consistency */
     flex-shrink: 0;
 }
 
@@ -796,11 +675,9 @@ body {
     display: block;
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
     .wonderland-section {
         height: auto;
-        /* No scroll scrub on mobile usually, or simpler */
         padding: 4rem 1rem;
     }
 
@@ -835,18 +712,14 @@ body {
     .wonderland-gallery-scroll-container {
         grid-template-columns: 1fr 1fr;
         height: auto;
-        /* On mobile, maybe just show them statically or let them scroll naturally? */
-        /* Let's just stack them normally for now */
     }
 
     .w-col-left,
     .w-col-right {
         transform: none !important;
-        /* Disable JS transform on mobile via important or JS check */
     }
 }
 
-/* Text Carousel Section */
 .text-carousel-section {
     background-color: #121212;
     padding: 10rem 0;
@@ -864,7 +737,6 @@ body {
     padding-bottom: 6rem;
     padding-top: 0;
     margin-top: -1rem;
-    /* Pull them closer */
 }
 
 .marquee-container {
@@ -892,7 +764,6 @@ body {
     margin-right: 2rem;
     display: inline-block;
     line-height: 1;
-    /* Reduce vertical space */
 }
 
 @keyframes marquee-scroll {
